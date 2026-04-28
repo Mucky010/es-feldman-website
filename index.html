@@ -5,44 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Esther Feldman</title>
   <style>
+    /* fonts installed as system fonts */
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:            #c7c4bc;
-      --surface:       #d3d0c8;
-      --text:          #22211f;
-      --muted:         #78766e;
-      --accent:        #7695c1;
-      --accent-light:  #dee7f5;
-      --accent-dim:    #b5cae6;
-      --nav-bg:        rgba(199,196,188,0.82);
-      --white:         #fafaf8;
-      --ink-dark:      #1a1917;
+      --cream:    #F0EAE1;
+      --paper:    #FAF7F3;
+      --white:    #FEFEFE;
+      --blue:     #6B8FF0;
+      --blue-dim: #C8D4FA;
+      --blue-soft:#E8EEFB;
+      --silver:   #C9C9C5;
+      --ink:      #2E2E2C;
+      --mid:      #8A8A86;
+      --rule:     rgba(46,46,44,0.10);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--cream);
+      color: var(--ink);
       font-family: 'Inter', 'Helvetica Neue', sans-serif;
       font-size: 15px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
 
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      pointer-events: none;
-      opacity: 0.045;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      background-size: 256px 256px;
-    }
-
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -51,16 +42,17 @@
       align-items: center;
       justify-content: space-between;
       padding: 20px 48px;
-      background: var(--nav-bg);
+      background: rgba(240,234,225,0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
     }
     .nav-name {
       font-family: 'Mogranx Light SemExp', sans-serif;
       font-size: 14px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--text);
+      color: var(--ink);
       text-decoration: none;
     }
     .nav-links {
@@ -73,11 +65,12 @@
       letter-spacing: 0.10em;
       text-transform: uppercase;
       text-decoration: none;
-      color: var(--muted);
+      color: var(--mid);
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover { color: var(--ink); }
 
+    /* ── HERO ── */
     .hero {
       min-height: 100svh;
       display: flex;
@@ -85,17 +78,24 @@
       justify-content: flex-end;
       padding: 0 52px 64px;
       position: relative;
-      background-image: url('esther.jpg');
-      background-size: cover;
-      background-position: center 30%;
-      background-repeat: no-repeat;
     }
-    .hero::before {
-      content: '';
+    .hero-photo {
       position: absolute;
-      inset: 0;
-      z-index: 1;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0.65) 100%);
+      top: 80px;
+      right: 52px;
+      width: 240px;
+      height: 300px;
+      border-radius: 140px 140px 100px 100px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(46,46,44,0.12);
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 10%;
+      display: block;
+      filter: saturate(0.85) brightness(1.04);
     }
     .hero-left {
       position: relative;
@@ -104,7 +104,7 @@
     .hero-eyebrow {
       font-family: 'Mogranx Light SemExp', sans-serif;
       font-size: 18px;
-      color: rgba(255,255,255,0.85);
+      color: var(--blue);
       margin-bottom: 20px;
       letter-spacing: 0.01em;
     }
@@ -114,10 +114,15 @@
       font-weight: 600;
       line-height: 0.95;
       letter-spacing: -0.03em;
-      color: var(--white);
+      color: var(--ink);
       text-transform: uppercase;
     }
-    .hero-name span { display: block; }
+    .hero-name span {
+      display: block;
+    }
+    .hero-name .last {
+      color: var(--ink);
+    }
     .hero-sub {
       margin-top: 36px;
       display: flex;
@@ -127,11 +132,11 @@
     .hero-descriptor {
       max-width: 420px;
       font-size: 14px;
-      color: rgba(255,255,255,0.72);
+      color: var(--mid);
       line-height: 1.68;
     }
     .hero-descriptor strong {
-      color: var(--white);
+      color: var(--ink);
       font-weight: 600;
     }
     .hero-tags {
@@ -145,39 +150,49 @@
       font-size: 12px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--white);
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.18);
+      color: var(--blue);
+      background: var(--blue-soft);
+      border: 1px solid var(--blue-dim);
       padding: 5px 14px 4px;
       border-radius: 40px;
-      backdrop-filter: blur(4px);
     }
 
-    section { padding: 100px 48px; }
+    /* ── DIVIDER ── */
+    .rule {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 0 48px;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    section { padding: 88px 48px; }
 
     .section-label {
       font-family: 'Mogranx Thin UltCond Slant', sans-serif;
       font-size: 11px;
       letter-spacing: 0.20em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--mid);
       margin-bottom: 48px;
     }
 
+    /* ── WORK ── */
     .work-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2px;
-      background: var(--bg);
+      background: var(--rule);
+      border: 1px solid var(--rule);
     }
     .work-card {
-      background: var(--surface);
+      background: var(--paper);
       padding: 48px 44px;
+      position: relative;
     }
     .work-card-eyebrow {
       font-family: 'Mogranx Light SemExp', sans-serif;
       font-size: 13px;
-      color: var(--accent);
+      color: var(--blue);
       margin-bottom: 16px;
     }
     .work-card-title {
@@ -192,13 +207,13 @@
       font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--mid);
       margin-bottom: 28px;
     }
     .work-card-body {
       font-size: 14px;
       line-height: 1.7;
-      color: #4a4945;
+      color: #4A4A47;
     }
     .work-card-body p + p { margin-top: 12px; }
     .work-card-link {
@@ -209,16 +224,16 @@
       font-size: 12px;
       letter-spacing: 0.10em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--blue);
       text-decoration: none;
       font-weight: 600;
       transition: gap 0.2s;
     }
     .work-card-link:hover { gap: 14px; }
-    .work-card-link::after { content: '\2192'; }
+    .work-card-link::after { content: '→'; }
     .yori-badge {
       display: inline-block;
-      background: var(--accent);
+      background: var(--blue);
       color: var(--white);
       font-family: 'Mogranx Light SemExp', sans-serif;
       font-size: 12px;
@@ -228,8 +243,9 @@
       margin-bottom: 28px;
     }
 
+    /* ── STATS ── */
     .stats {
-      background: var(--ink-dark);
+      background: var(--ink);
     }
     .stats .section-label { color: rgba(255,255,255,0.35); }
     .stats-grid {
@@ -252,7 +268,7 @@
     .stat-num sup {
       font-size: 0.45em;
       vertical-align: super;
-      color: var(--accent);
+      color: var(--blue);
     }
     .stat-label {
       margin-top: 12px;
@@ -263,8 +279,9 @@
       line-height: 1.4;
     }
 
+    /* ── COLLABIORA ── */
     .collabiora-section {
-      background: var(--surface);
+      background: var(--paper);
     }
     .collabiora-inner {
       display: grid;
@@ -282,7 +299,7 @@
     }
     .collabiora-left .headline em {
       font-style: normal;
-      color: var(--accent);
+      color: var(--blue);
       font-family: 'Mogranx Light SemExp', sans-serif;
       text-transform: none;
       font-size: 0.75em;
@@ -293,32 +310,36 @@
     .collabiora-left p {
       font-size: 15px;
       line-height: 1.72;
-      color: #4a4945;
+      color: #4A4A47;
     }
     .collabiora-left p + p { margin-top: 14px; }
+    .collabiora-right {}
     .pillar-list {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 0;
+      border: 1px solid var(--rule);
     }
     .pillar-item {
       display: flex;
       align-items: flex-start;
       gap: 20px;
-      padding: 22px 0;
-      border-bottom: 1px solid rgba(34,33,31,0.06);
-      transition: opacity 0.15s;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.15s;
     }
     .pillar-item:last-child { border-bottom: none; }
+    .pillar-item:hover { background: var(--blue-soft); }
     .pillar-num {
       font-family: 'Mogranx Thin UltCond Slant', sans-serif;
       font-size: 11px;
-      color: var(--accent);
+      color: var(--blue);
       letter-spacing: 0.12em;
       padding-top: 2px;
       min-width: 24px;
     }
+    .pillar-text {}
     .pillar-title {
       font-family: 'Mogranx Light SemExp', sans-serif;
       font-size: 14px;
@@ -328,40 +349,45 @@
     }
     .pillar-desc {
       font-size: 13px;
-      color: var(--muted);
+      color: var(--mid);
       line-height: 1.5;
     }
 
+    /* ── RESEARCH ── */
     .research-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 24px;
     }
     .pub-card {
-      background: var(--surface);
+      background: var(--paper);
       padding: 28px 28px;
+      border: 1px solid var(--rule);
+      transition: border-color 0.2s;
     }
-    .pub-card:hover { background: #cecbc4; }
+    .pub-card:hover { border-color: var(--blue-dim); }
     .pub-year {
       font-family: 'Mogranx Thin UltCond Slant', sans-serif;
       font-size: 11px;
       letter-spacing: 0.14em;
-      color: var(--accent);
+      color: var(--blue);
       margin-bottom: 10px;
     }
     .pub-title {
       font-size: 13px;
       line-height: 1.55;
-      color: var(--text);
+      color: var(--ink);
       font-weight: 500;
       margin-bottom: 10px;
     }
     .pub-journal {
       font-size: 12px;
-      color: var(--muted);
+      color: var(--mid);
       font-style: italic;
     }
 
+    /* ── BACKGROUND ── */
+    .background-section {}
     .bg-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -374,9 +400,9 @@
       line-height: 1.2;
       text-transform: uppercase;
       letter-spacing: -0.01em;
-      color: var(--text);
+      color: var(--ink);
     }
-    .bg-intro .dim { color: var(--muted); }
+    .bg-intro .dim { color: var(--silver); }
     .credential-list {
       list-style: none;
       display: flex;
@@ -388,21 +414,22 @@
       flex-direction: column;
       gap: 3px;
       padding-bottom: 16px;
-      border-bottom: 1px solid rgba(34,33,31,0.06);
+      border-bottom: 1px solid var(--rule);
     }
     .credential-item:last-child { border-bottom: none; }
     .credential-title {
       font-size: 13px;
       font-weight: 600;
-      color: var(--text);
+      color: var(--ink);
     }
     .credential-sub {
       font-size: 12px;
-      color: var(--muted);
+      color: var(--mid);
     }
 
+    /* ── FOOTER ── */
     footer {
-      background: var(--ink-dark);
+      background: var(--ink);
       padding: 56px 48px;
       display: flex;
       align-items: flex-end;
@@ -416,7 +443,9 @@
       color: var(--white);
       line-height: 1;
     }
-    .footer-right { text-align: right; }
+    .footer-right {
+      text-align: right;
+    }
     .footer-link {
       display: block;
       font-size: 12px;
@@ -431,7 +460,7 @@
     .footer-collabiora {
       font-family: 'Mogranx Light SemExp', sans-serif;
       font-size: 16px;
-      color: var(--accent);
+      color: var(--blue);
       text-decoration: none;
       margin-top: 20px;
       display: block;
@@ -439,11 +468,14 @@
     }
     .footer-collabiora:hover { opacity: 0.7; }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 16px 24px; }
       .nav-links { display: none; }
       .hero { padding: 0 24px 48px; }
+      .hero-photo { width: 160px; height: 200px; top: 72px; right: 24px; }
       section { padding: 64px 24px; }
+      .rule { margin: 0 24px; }
       .work-grid { grid-template-columns: 1fr; }
       .stats-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
       .stat-item { border-right: none; }
@@ -457,6 +489,7 @@
 </head>
 <body>
 
+  <!-- NAV -->
   <nav>
     <a class="nav-name" href="#">Esther Feldman</a>
     <ul class="nav-links">
@@ -467,6 +500,7 @@
     </ul>
   </nav>
 
+  <!-- HERO -->
   <div class="hero">
     <div class="hero-left">
       <div class="hero-eyebrow">Researcher &amp; Founder</div>
@@ -477,18 +511,24 @@
       <div class="hero-sub">
         <p class="hero-descriptor">
           <strong>Organizational psychologist, policy architect, and health-tech founder.</strong>
-          Building AI tools that make health information accessible to everyone &mdash;
+          Building AI tools that make health information accessible to everyone —
           from Amsterdam trauma centres to Los Angeles startups.
         </p>
         <div class="hero-tags">
           <span class="hero-tag">Collabiora Co-Founder</span>
-          <span class="hero-tag">Policy Advisor &middot; ARQ</span>
+          <span class="hero-tag">Policy Advisor · ARQ</span>
           <span class="hero-tag">4 Publications</span>
         </div>
       </div>
     </div>
+    <div class="hero-photo">
+      <img src="esther 2.png" alt="Esther Feldman" />
+    </div>
   </div>
 
+  <hr class="rule" />
+
+  <!-- WORK -->
   <section id="work">
     <p class="section-label">Current Work</p>
     <div class="work-grid">
@@ -496,11 +536,11 @@
       <div class="work-card">
         <p class="work-card-eyebrow">Since November 2025</p>
         <h2 class="work-card-title">Collabiora</h2>
-        <p class="work-card-org">Co-Founder &amp; CEO &middot; Los Angeles</p>
+        <p class="work-card-org">Co-Founder &amp; CEO · Los Angeles</p>
         <div class="yori-badge">Yori AI</div>
         <div class="work-card-body">
           <p>Co-founded Collabiora to solve a problem Esther encountered first-hand across a decade of health research: patients, clinicians, and researchers all drowning in information they can't easily navigate.</p>
-          <p>Yori is Collabiora's AI &mdash; designed to distil complex health data into clear, actionable answers for anyone who needs it.</p>
+          <p>Yori is Collabiora's AI — designed to distil complex health data into clear, actionable answers for anyone who needs it.</p>
         </div>
         <a class="work-card-link" href="https://collabiora.com" target="_blank">collabiora.com</a>
       </div>
@@ -508,16 +548,19 @@
       <div class="work-card">
         <p class="work-card-eyebrow">Since May 2023</p>
         <h2 class="work-card-title">ARQ National Psychotrauma Centre</h2>
-        <p class="work-card-org">Policy Advisor &amp; Researcher &middot; Netherlands (Remote)</p>
+        <p class="work-card-org">Policy Advisor &amp; Researcher · Netherlands (Remote)</p>
         <div class="work-card-body">
-          <p>Leading national mental health policy for 200,000+ uniformed personnel &mdash; police, military, emergency services &mdash; across the Netherlands.</p>
-          <p>Architected national PTSD support guidelines, secured a &euro;200,000 Ministry of Justice grant, and built monitoring systems that track measurable reductions in trauma incidents across regional programmes.</p>
+          <p>Leading national mental health policy for 200,000+ uniformed personnel — police, military, emergency services — across the Netherlands.</p>
+          <p>Architected national PTSD support guidelines, secured a €200,000 Ministry of Justice grant, and built monitoring systems that track measurable reductions in trauma incidents across regional programmes.</p>
         </div>
       </div>
 
     </div>
   </section>
 
+  <hr class="rule" />
+
+  <!-- STATS -->
   <section class="stats">
     <p class="section-label">Impact</p>
     <div class="stats-grid">
@@ -526,7 +569,7 @@
         <div class="stat-label">Uniformed personnel covered<br>by national guidelines</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">&euro;200<sup>k</sup></div>
+        <div class="stat-num">€200<sup>k</sup></div>
         <div class="stat-label">Government grant secured<br>Ministry of Justice 2024</div>
       </div>
       <div class="stat-item">
@@ -540,6 +583,7 @@
     </div>
   </section>
 
+  <!-- COLLABIORA -->
   <section class="collabiora-section" id="collabiora">
     <p class="section-label">The Company</p>
     <div class="collabiora-inner">
@@ -548,8 +592,8 @@
           <em>Meet Yori</em>
           Health information,<br>finally navigable
         </h2>
-        <p>Esther co-founded Collabiora in November 2025 with Sanskriti Desai. The company's core product, Yori, is an AI built specifically for health navigation &mdash; helping patients understand their diagnoses, supporting researchers synthesising evidence, and helping healthcare providers access the information they need faster.</p>
-        <p>Esther's decade in clinical and policy research &mdash; across cancer care, trauma, and public health &mdash; directly shapes how Yori thinks. The product isn't built from the outside in. It's built from lived institutional knowledge.</p>
+        <p>Esther co-founded Collabiora in November 2025 with Sanskriti Desai. The company's core product, Yori, is an AI built specifically for health navigation — helping patients understand their diagnoses, supporting researchers synthesising evidence, and helping healthcare providers access the information they need faster.</p>
+        <p>Esther's decade in clinical and policy research — across cancer care, trauma, and public health — directly shapes how Yori thinks. The product isn't built from the outside in. It's built from lived institutional knowledge.</p>
         <p>Collabiora targets individual subscribers, hospital licensing deals, and venture investment. The long-game is institutional adoption: getting Yori embedded in the places where health decisions actually get made.</p>
       </div>
       <div class="collabiora-right">
@@ -579,7 +623,7 @@
             <span class="pillar-num">04</span>
             <div class="pillar-text">
               <div class="pillar-title">Institutions</div>
-              <div class="pillar-desc">Hospital and research licensing &mdash; Yori embedded at the systems level.</div>
+              <div class="pillar-desc">Hospital and research licensing — Yori embedded at the systems level.</div>
             </div>
           </li>
         </ul>
@@ -587,38 +631,44 @@
     </div>
   </section>
 
+  <hr class="rule" />
+
+  <!-- RESEARCH -->
   <section id="research">
     <p class="section-label">Publications</p>
     <div class="research-grid">
 
       <div class="pub-card">
-        <div class="pub-year">2024 &middot; Quality of Life Research</div>
+        <div class="pub-year">2024 · Quality of Life Research</div>
         <p class="pub-title">Using a modified Delphi procedure to select a PRO-CTCAE-based subset for patient-reported symptomatic toxicity monitoring in rectal cancer patients</p>
-        <p class="pub-journal">Geurts, Peters, Feldman, et al. &middot; DOI: 10.1007/s11136-024-03767-0</p>
+        <p class="pub-journal">Geurts, Peters, Feldman, et al. · DOI: 10.1007/s11136-024-03767-0</p>
       </div>
 
       <div class="pub-card">
-        <div class="pub-year">2023 &middot; ESMO Open</div>
+        <div class="pub-year">2023 · ESMO Open</div>
         <p class="pub-title">Selecting a PRO-CTCAE-based subset for patient-reported symptom monitoring in prostate cancer patients: A modified Delphi procedure</p>
-        <p class="pub-journal">Feldman, Pos, Smeenk, et al. &middot; DOI: 10.1016/j.esmoop.2022.100775</p>
+        <p class="pub-journal">Feldman, Pos, Smeenk, et al. · DOI: 10.1016/j.esmoop.2022.100775</p>
       </div>
 
       <div class="pub-card">
-        <div class="pub-year">2021 &middot; BMJ Open</div>
+        <div class="pub-year">2021 · BMJ Open</div>
         <p class="pub-title">SYMPRO-Lung: Symptom monitoring with Patient-Reported Outcomes using a web application among lung cancer patients in the Netherlands</p>
-        <p class="pub-journal">Feldman et al. &middot; DOI: 10.1136/bmjopen-2021-052494</p>
+        <p class="pub-journal">Feldman et al. · DOI: 10.1136/bmjopen-2021-052494</p>
       </div>
 
       <div class="pub-card">
-        <div class="pub-year">2020 &middot; Annals of Oncology</div>
+        <div class="pub-year">2020 · Annals of Oncology</div>
         <p class="pub-title">SYMPRO-Lung: PRO monitoring using a web application among lung cancer patients in the Netherlands</p>
-        <p class="pub-journal">Feldman et al. &middot; Annals of Oncology, 31, S801</p>
+        <p class="pub-journal">Feldman et al. · Annals of Oncology, 31, S801</p>
       </div>
 
     </div>
   </section>
 
-  <section id="about">
+  <hr class="rule" />
+
+  <!-- ABOUT / BACKGROUND -->
+  <section class="background-section" id="about">
     <p class="section-label">Background</p>
     <div class="bg-grid">
       <div>
@@ -627,54 +677,55 @@
           <span class="dim">clinical research,</span><br>
           policy architecture,<br>
           <span class="dim">and institutional</span><br>
-          health work &mdash;<br>
+          health work —<br>
           distilled into a product.
         </p>
-        <p style="margin-top:36px; font-size:14px; line-height:1.75; color:#5a5955; max-width:480px;">
-          Esther holds an M.Sc. in Work &amp; Organisational Psychology from VU Amsterdam and a B.Sc. in Psychology from Erasmus University Rotterdam. Before Collabiora, she spent four years in clinical cancer research &mdash; at the Netherlands Cancer Institute and Radboudumc &mdash; pioneering patient-reported outcome frameworks now used across 13+ Dutch hospitals. She speaks six languages and holds a US Green Card. Based in Los Angeles.
+        <p style="margin-top:36px; font-size:14px; line-height:1.75; color:#5A5A57; max-width:480px;">
+          Esther holds an M.Sc. in Work &amp; Organisational Psychology from VU Amsterdam and a B.Sc. in Psychology from Erasmus University Rotterdam. Before Collabiora, she spent four years in clinical cancer research — at the Netherlands Cancer Institute and Radboudumc — pioneering patient-reported outcome frameworks now used across 13+ Dutch hospitals. She speaks six languages and holds a US Green Card. Based in Los Angeles.
         </p>
       </div>
       <div>
         <ul class="credential-list">
           <li class="credential-item">
             <span class="credential-title">M.Sc. Work &amp; Organisational Psychology</span>
-            <span class="credential-sub">Vrije Universiteit Amsterdam &middot; 2019</span>
+            <span class="credential-sub">Vrije Universiteit Amsterdam · 2019</span>
           </li>
           <li class="credential-item">
             <span class="credential-title">B.Sc. Psychology</span>
-            <span class="credential-sub">Erasmus University Rotterdam &middot; 2017</span>
+            <span class="credential-sub">Erasmus University Rotterdam · 2017</span>
           </li>
           <li class="credential-item">
             <span class="credential-title">Machine Learning with Python</span>
-            <span class="credential-sub">Amsterdam Data Academy &middot; 2023</span>
+            <span class="credential-sub">Amsterdam Data Academy · 2023</span>
           </li>
           <li class="credential-item">
             <span class="credential-title">Cognitive Behavioural Therapy (100H)</span>
-            <span class="credential-sub">Certified &middot; 2021</span>
+            <span class="credential-sub">Certified · 2021</span>
           </li>
           <li class="credential-item">
-            <span class="credential-title">Policy Advisor &middot; ARQ Psychotrauma Centre</span>
-            <span class="credential-sub">2023 &ndash; Present</span>
+            <span class="credential-title">Policy Advisor · ARQ Psychotrauma Centre</span>
+            <span class="credential-sub">2023 – Present</span>
           </li>
           <li class="credential-item">
-            <span class="credential-title">Scientific Researcher &middot; Radboudumc Oncology</span>
-            <span class="credential-sub">2021 &ndash; 2022</span>
+            <span class="credential-title">Scientific Researcher · Radboudumc Oncology</span>
+            <span class="credential-sub">2021 – 2022</span>
           </li>
           <li class="credential-item">
-            <span class="credential-title">Junior Researcher &middot; Netherlands Cancer Institute</span>
-            <span class="credential-sub">2019 &ndash; 2021</span>
+            <span class="credential-title">Junior Researcher · Netherlands Cancer Institute</span>
+            <span class="credential-sub">2019 – 2021</span>
           </li>
         </ul>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <div class="footer-name">Esther<br>Feldman</div>
     <div class="footer-right">
       <a class="footer-link" href="mailto:esfeldbarg@gmail.com">esfeldbarg@gmail.com</a>
       <a class="footer-link" href="https://www.linkedin.com/in/estherfeldman" target="_blank">LinkedIn</a>
-      <a class="footer-collabiora" href="https://collabiora.com" target="_blank">collabiora.com &rarr;</a>
+      <a class="footer-collabiora" href="https://collabiora.com" target="_blank">collabiora.com →</a>
     </div>
   </footer>
 
