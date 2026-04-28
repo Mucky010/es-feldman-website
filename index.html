@@ -1,733 +1,735 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Esther Feldman</title>
-  <style>
-    /* fonts installed as system fonts */
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Esther Feldman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #F2EDE4;
+    color: #1A1710;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+  ::selection { background: oklch(52% 0.09 238 / 0.18); }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    backdrop-filter: blur(0px);
+  }
+  .nav-logo, .nav-link { text-shadow: 0 0 20px #F2EDE4, 0 0 40px #F2EDE4; }
+  .nav-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 500; color: #1A1710; text-decoration: none;
+    cursor: pointer;
+  }
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-link {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 500; color: #1A1710; cursor: pointer;
+    text-decoration: none; opacity: 0.65; transition: opacity 0.2s;
+    background: none; border: none; font-family: inherit;
+  }
+  .nav-link:hover, .nav-link.active { opacity: 1; }
+  .nav-link.active { opacity: 1; }
 
-    :root {
-      --cream:    #F0EAE1;
-      --paper:    #FAF7F3;
-      --white:    #FEFEFE;
-      --blue:     #6B8FF0;
-      --blue-dim: #C8D4FA;
-      --blue-soft:#E8EEFB;
-      --silver:   #C9C9C5;
-      --ink:      #2E2E2C;
-      --mid:      #8A8A86;
-      --rule:     rgba(46,46,44,0.10);
-    }
+  /* PAGE TRANSITIONS */
+  .page-enter { animation: pageIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-    html { scroll-behavior: smooth; }
+  /* HERO */
+  .hero {
+    min-height: 100vh; position: relative;
+    display: grid; grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 48px 72px 48px; position: relative; z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: oklch(52% 0.09 238); font-weight: 500; margin-bottom: 20px;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(72px, 8.5vw, 130px);
+    font-weight: 700; line-height: 0.92;
+    letter-spacing: -0.02em; color: #1A1710;
+    margin-bottom: 28px;
+  }
+  .hero-name em { font-style: italic; font-weight: 300; }
+  .hero-desc {
+    font-size: 14px; line-height: 1.7; max-width: 300px;
+    color: #1A1710; opacity: 0.75; margin-bottom: 36px;
+    font-weight: 300;
+  }
+  .hero-desc strong { font-weight: 500; opacity: 1; color: #1A1710; }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hero-tag {
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 500; padding: 6px 14px;
+    border: 1px solid oklch(52% 0.09 238 / 0.5);
+    color: oklch(52% 0.09 238);
+    border-radius: 100px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .hero-tag:hover { background: oklch(52% 0.09 238); color: #F2EDE4; }
+  .hero-right {
+    position: relative; overflow: hidden;
+  }
+  .hero-photo-wrap {
+    position: absolute; top: 0; bottom: 0; left: -5%; right: -5%;
+    display: flex; align-items: flex-end;
+  }
+  .hero-photo {
+    width: 100%; height: 105%; object-fit: contain;
+    object-position: bottom center;
+    transform-origin: bottom center;
+  }
+  .hero-bg-name {
+    position: absolute; bottom: 60px; right: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(100px, 14vw, 220px);
+    font-weight: 700; line-height: 0.85;
+    letter-spacing: -0.03em;
+    color: transparent;
+    -webkit-text-stroke: 1px oklch(52% 0.05 238 / 0.15);
+    white-space: nowrap; pointer-events: none;
+    z-index: 1;
+  }
 
-    body {
-      background: var(--cream);
-      color: var(--ink);
-      font-family: 'Inter', 'Helvetica Neue', sans-serif;
-      font-size: 15px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+  /* SECTIONS */
+  .section {
+    padding: 120px 48px;
+  }
+  .section-header {
+    display: flex; align-items: baseline; gap: 20px;
+    margin-bottom: 64px;
+    padding-bottom: 20px; border-bottom: 1px solid #1A1710;
+  }
+  .section-num {
+    font-size: 11px; letter-spacing: 0.15em; opacity: 0.4;
+    font-weight: 400;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 60px);
+    font-weight: 400; font-style: italic;
+    line-height: 1; letter-spacing: -0.01em;
+  }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 48px;
-      background: rgba(240,234,225,0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--rule);
-    }
-    .nav-name {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: 14px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 12px;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--mid);
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--ink); }
+  /* WORK */
+  .work-list { display: flex; flex-direction: column; gap: 0; }
+  .work-item {
+    display: grid; grid-template-columns: 120px 1fr 200px;
+    gap: 40px; align-items: start;
+    padding: 40px 0;
+    border-bottom: 1px solid oklch(15% 0.01 60 / 0.1);
+    cursor: default;
+    transition: all 0.25s;
+  }
+  .work-item:hover { padding-left: 12px; }
+  .work-year {
+    font-size: 11px; letter-spacing: 0.12em;
+    color: #1A1710; opacity: 0.45; padding-top: 4px;
+  }
+  .work-org {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 2.4vw, 34px);
+    font-weight: 600; line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  .work-role {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: oklch(52% 0.09 238); font-weight: 500; margin-bottom: 14px;
+  }
+  .work-desc {
+    font-size: 14px; line-height: 1.75; opacity: 0.7;
+    max-width: 520px;
+  }
+  .work-stat {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    opacity: 0.4; text-align: right; padding-top: 4px;
+    font-weight: 500;
+  }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 52px 64px;
-      position: relative;
-    }
-    .hero-photo {
-      position: absolute;
-      top: 80px;
-      right: 52px;
-      width: 240px;
-      height: 300px;
-      border-radius: 140px 140px 100px 100px;
-      overflow: hidden;
-      box-shadow: 0 8px 40px rgba(46,46,44,0.12);
-    }
-    .hero-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 10%;
-      display: block;
-      filter: saturate(0.85) brightness(1.04);
-    }
-    .hero-left {
-      position: relative;
-      z-index: 2;
-    }
-    .hero-eyebrow {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: 18px;
-      color: var(--blue);
-      margin-bottom: 20px;
-      letter-spacing: 0.01em;
-    }
-    .hero-name {
-      font-family: 'Inter', 'Helvetica Neue', sans-serif;
-      font-size: clamp(52px, 7.5vw, 104px);
-      font-weight: 600;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      text-transform: uppercase;
-    }
-    .hero-name span {
-      display: block;
-    }
-    .hero-name .last {
-      color: var(--ink);
-    }
-    .hero-sub {
-      margin-top: 36px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .hero-descriptor {
-      max-width: 420px;
-      font-size: 14px;
-      color: var(--mid);
-      line-height: 1.68;
-    }
-    .hero-descriptor strong {
-      color: var(--ink);
-      font-weight: 600;
-    }
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .hero-tag {
-      display: inline-block;
-      font-family: 'Mogranx Thin UltCond Slant', sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--blue);
-      background: var(--blue-soft);
-      border: 1px solid var(--blue-dim);
-      padding: 5px 14px 4px;
-      border-radius: 40px;
-    }
+  /* COLLABIORA */
+  .collabiora-hero {
+    min-height: 70vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    padding: 120px 48px;
+  }
+  .collabiora-left { }
+  .collabiora-eyebrow {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: oklch(52% 0.09 238); font-weight: 500; margin-bottom: 20px;
+  }
+  .collabiora-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 6.5vw, 100px);
+    font-weight: 700; line-height: 0.9;
+    letter-spacing: -0.02em; margin-bottom: 32px;
+  }
+  .collabiora-desc {
+    font-size: 15px; line-height: 1.8; opacity: 0.75;
+    margin-bottom: 40px; max-width: 440px;
+  }
+  .collabiora-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 500; color: #1A1710; text-decoration: none;
+    border-bottom: 1px solid #1A1710; padding-bottom: 4px;
+    transition: gap 0.2s;
+  }
+  .collabiora-link:hover { gap: 18px; }
+  .collabiora-right {
+    position: relative;
+    background: #fff;
+    border-radius: 4px;
+    height: 420px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .collabiora-logo-img {
+    width: 70%; max-width: 320px; object-fit: contain;
+  }
+  .collabiora-stats {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px; background: oklch(15% 0.01 60 / 0.12);
+    margin: 0 48px 80px;
+    border: 1px solid oklch(15% 0.01 60 / 0.12);
+  }
+  .collabiora-stat {
+    padding: 40px 36px; background: #F2EDE4;
+  }
+  .collabiora-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px; font-weight: 300; line-height: 1;
+    margin-bottom: 10px; color: #1A1710;
+  }
+  .collabiora-stat-label {
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    opacity: 0.5; font-weight: 500;
+  }
 
-    /* ── DIVIDER ── */
-    .rule {
-      border: none;
-      border-top: 1px solid var(--rule);
-      margin: 0 48px;
-    }
+  /* RESEARCH */
+  .research-list { display: flex; flex-direction: column; gap: 0; }
+  .research-item {
+    padding: 44px 0;
+    border-bottom: 1px solid oklch(15% 0.01 60 / 0.1);
+    display: grid; grid-template-columns: 80px 1fr 140px;
+    gap: 40px; align-items: start;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .research-item:hover { padding-left: 12px; }
+  .research-year {
+    font-size: 11px; letter-spacing: 0.12em;
+    opacity: 0.4; padding-top: 6px;
+  }
+  .research-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 1.8vw, 26px);
+    font-weight: 600; line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .research-authors {
+    font-size: 13px; opacity: 0.55; margin-bottom: 8px; line-height: 1.5;
+  }
+  .research-journal {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: oklch(52% 0.09 238); font-weight: 500;
+  }
+  .research-doi {
+    font-size: 10px; opacity: 0.4; text-align: right; padding-top: 6px;
+    font-family: monospace; word-break: break-all; line-height: 1.5;
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .research-doi:hover { opacity: 0.8; color: oklch(52% 0.09 238); }
 
-    /* ── SECTION WRAPPER ── */
-    section { padding: 88px 48px; }
+  /* ABOUT */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; padding: 120px 48px;
+    align-items: start;
+  }
+  .about-left {}
+  .about-photo-wrap {
+    position: relative;
+    height: 85vh; max-height: 700px;
+    overflow: hidden;
+  }
+  .about-photo {
+    width: 100%; height: 100%; object-fit: contain;
+    object-position: top center;
+    transform: scale(1.4) translateY(-4%);
+    transform-origin: top center;
+    opacity: 0.7;
+  }
+  .about-photo-label {
+    position: absolute; bottom: 20px; left: 20px;
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    opacity: 0.5; font-weight: 500;
+  }
+  .about-right { padding-top: 20px; }
+  .about-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 400; font-style: italic;
+    line-height: 1.25; margin-bottom: 40px;
+    letter-spacing: -0.01em;
+  }
+  .about-body {
+    font-size: 15px; line-height: 1.85; opacity: 0.72;
+    margin-bottom: 40px;
+  }
+  .about-meta { display: flex; flex-direction: column; gap: 20px; }
+  .about-meta-row {
+    display: flex; gap: 24px; align-items: baseline;
+    border-top: 1px solid oklch(15% 0.01 60 / 0.12);
+    padding-top: 20px;
+  }
+  .about-meta-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    opacity: 0.45; font-weight: 500; min-width: 100px;
+  }
+  .about-meta-val {
+    font-size: 14px; opacity: 0.8; line-height: 1.5;
+  }
 
-    .section-label {
-      font-family: 'Mogranx Thin UltCond Slant', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.20em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 48px;
-    }
+  /* FOOTER */
+  footer {
+    padding: 60px 48px 40px;
+    border-top: 1px solid oklch(15% 0.01 60 / 0.12);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400; font-style: italic;
+    opacity: 0.5;
+  }
+  .footer-copy {
+    font-size: 10px; opacity: 0.35; letter-spacing: 0.1em;
+  }
 
-    /* ── WORK ── */
-    .work-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: var(--rule);
-      border: 1px solid var(--rule);
-    }
-    .work-card {
-      background: var(--paper);
-      padding: 48px 44px;
-      position: relative;
-    }
-    .work-card-eyebrow {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: 13px;
-      color: var(--blue);
-      margin-bottom: 16px;
-    }
-    .work-card-title {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: 28px;
-      line-height: 1.1;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      margin-bottom: 8px;
-    }
-    .work-card-org {
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 28px;
-    }
-    .work-card-body {
-      font-size: 14px;
-      line-height: 1.7;
-      color: #4A4A47;
-    }
-    .work-card-body p + p { margin-top: 12px; }
-    .work-card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 28px;
-      font-size: 12px;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      color: var(--blue);
-      text-decoration: none;
-      font-weight: 600;
-      transition: gap 0.2s;
-    }
-    .work-card-link:hover { gap: 14px; }
-    .work-card-link::after { content: '→'; }
-    .yori-badge {
-      display: inline-block;
-      background: var(--blue);
-      color: var(--white);
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 4px 12px 3px;
-      margin-bottom: 28px;
-    }
+  /* SCROLL INDICATOR */
+  .scroll-indicator {
+    position: absolute; bottom: 32px; left: 48px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    opacity: 0.4; font-weight: 500; z-index: 10;
+  }
+  .scroll-line {
+    width: 32px; height: 1px; background: #1A1710;
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { width: 32px; opacity: 0.4; }
+    50% { width: 48px; opacity: 0.8; }
+  }
 
-    /* ── STATS ── */
-    .stats {
-      background: var(--ink);
-    }
-    .stats .section-label { color: rgba(255,255,255,0.35); }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-    }
-    .stat-item {
-      padding: 20px 0;
-      border-right: 1px solid rgba(255,255,255,0.08);
-    }
-    .stat-item:last-child { border-right: none; }
-    .stat-num {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: clamp(40px, 5vw, 68px);
-      line-height: 1;
-      color: var(--white);
-      letter-spacing: -0.02em;
-    }
-    .stat-num sup {
-      font-size: 0.45em;
-      vertical-align: super;
-      color: var(--blue);
-    }
-    .stat-label {
-      margin-top: 12px;
-      font-size: 12px;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.40);
-      line-height: 1.4;
-    }
-
-    /* ── COLLABIORA ── */
-    .collabiora-section {
-      background: var(--paper);
-    }
-    .collabiora-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-    .collabiora-left .headline {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: clamp(36px, 4.5vw, 58px);
-      line-height: 1.0;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      margin-bottom: 32px;
-    }
-    .collabiora-left .headline em {
-      font-style: normal;
-      color: var(--blue);
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      text-transform: none;
-      font-size: 0.75em;
-      display: block;
-      letter-spacing: 0.01em;
-      margin-bottom: 4px;
-    }
-    .collabiora-left p {
-      font-size: 15px;
-      line-height: 1.72;
-      color: #4A4A47;
-    }
-    .collabiora-left p + p { margin-top: 14px; }
-    .collabiora-right {}
-    .pillar-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border: 1px solid var(--rule);
-    }
-    .pillar-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      padding: 22px 24px;
-      border-bottom: 1px solid var(--rule);
-      transition: background 0.15s;
-    }
-    .pillar-item:last-child { border-bottom: none; }
-    .pillar-item:hover { background: var(--blue-soft); }
-    .pillar-num {
-      font-family: 'Mogranx Thin UltCond Slant', sans-serif;
-      font-size: 11px;
-      color: var(--blue);
-      letter-spacing: 0.12em;
-      padding-top: 2px;
-      min-width: 24px;
-    }
-    .pillar-text {}
-    .pillar-title {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 4px;
-    }
-    .pillar-desc {
-      font-size: 13px;
-      color: var(--mid);
-      line-height: 1.5;
-    }
-
-    /* ── RESEARCH ── */
-    .research-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-    .pub-card {
-      background: var(--paper);
-      padding: 28px 28px;
-      border: 1px solid var(--rule);
-      transition: border-color 0.2s;
-    }
-    .pub-card:hover { border-color: var(--blue-dim); }
-    .pub-year {
-      font-family: 'Mogranx Thin UltCond Slant', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      color: var(--blue);
-      margin-bottom: 10px;
-    }
-    .pub-title {
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--ink);
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    .pub-journal {
-      font-size: 12px;
-      color: var(--mid);
-      font-style: italic;
-    }
-
-    /* ── BACKGROUND ── */
-    .background-section {}
-    .bg-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 64px;
-      align-items: start;
-    }
-    .bg-intro {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: clamp(24px, 3vw, 36px);
-      line-height: 1.2;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-    }
-    .bg-intro .dim { color: var(--silver); }
-    .credential-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .credential-item {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--rule);
-    }
-    .credential-item:last-child { border-bottom: none; }
-    .credential-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ink);
-    }
-    .credential-sub {
-      font-size: 12px;
-      color: var(--mid);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--ink);
-      padding: 56px 48px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-    }
-    .footer-name {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: clamp(32px, 5vw, 60px);
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      color: var(--white);
-      line-height: 1;
-    }
-    .footer-right {
-      text-align: right;
-    }
-    .footer-link {
-      display: block;
-      font-size: 12px;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
-      text-decoration: none;
-      margin-bottom: 8px;
-      transition: color 0.2s;
-    }
-    .footer-link:hover { color: var(--white); }
-    .footer-collabiora {
-      font-family: 'Mogranx Light SemExp', sans-serif;
-      font-size: 16px;
-      color: var(--blue);
-      text-decoration: none;
-      margin-top: 20px;
-      display: block;
-      transition: opacity 0.2s;
-    }
-    .footer-collabiora:hover { opacity: 0.7; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav { padding: 16px 24px; }
-      .nav-links { display: none; }
-      .hero { padding: 0 24px 48px; }
-      .hero-photo { width: 160px; height: 200px; top: 72px; right: 24px; }
-      section { padding: 64px 24px; }
-      .rule { margin: 0 24px; }
-      .work-grid { grid-template-columns: 1fr; }
-      .stats-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-      .stat-item { border-right: none; }
-      .collabiora-inner { grid-template-columns: 1fr; gap: 40px; }
-      .research-grid { grid-template-columns: 1fr; }
-      .bg-grid { grid-template-columns: 1fr; gap: 40px; }
-      footer { flex-direction: column; gap: 32px; }
-      .footer-right { text-align: left; }
-    }
-  </style>
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { gap: 20px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 100px 20px 48px; }
+    .hero-right { height: 50vh; }
+    .section { padding: 80px 20px; }
+    .work-item { grid-template-columns: 1fr; gap: 12px; }
+    .work-stat { text-align: left; }
+    .research-item { grid-template-columns: 60px 1fr; }
+    .research-doi { display: none; }
+    .collabiora-hero { grid-template-columns: 1fr; padding: 80px 20px; }
+    .collabiora-stats { margin: 0 20px 60px; grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; padding: 80px 20px; }
+    footer { padding: 40px 20px; flex-direction: column; gap: 12px; }
+  }
+</style>
 </head>
 <body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
 
-  <!-- NAV -->
-  <nav>
-    <a class="nav-name" href="#">Esther Feldman</a>
-    <ul class="nav-links">
-      <li><a href="#work">Work</a></li>
-      <li><a href="#collabiora">Collabiora</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#about">About</a></li>
-    </ul>
-  </nav>
+const PHOTO = 'uploads/photo-1777403165975.png';
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-left">
-      <div class="hero-eyebrow">Researcher &amp; Founder</div>
-      <h1 class="hero-name">
-        <span class="first">Esther</span>
-        <span class="last">Feldman</span>
-      </h1>
-      <div class="hero-sub">
-        <p class="hero-descriptor">
-          <strong>Organizational psychologist, policy architect, and health-tech founder.</strong>
-          Building AI tools that make health information accessible to everyone —
-          from Amsterdam trauma centres to Los Angeles startups.
-        </p>
-        <div class="hero-tags">
-          <span class="hero-tag">Collabiora Co-Founder</span>
-          <span class="hero-tag">Policy Advisor · ARQ</span>
-          <span class="hero-tag">4 Publications</span>
+const WORK = [
+  {
+    year: '2025–',
+    org: 'Collabiora',
+    role: 'Co-Founder',
+    desc: 'Co-founded health navigation platform Collabiora, helping patients and researchers navigate health information.',
+    stat: 'Health Tech',
+    link: 'collabiora.com'
+  },
+  {
+    year: '2023–',
+    org: 'ARQ National Psychotrauma Centre',
+    role: 'Policy Advisor & Researcher',
+    desc: 'Lead policy architect for Dutch national mental health initiatives. Developed national psychosocial support guidelines for 200,000+ uniformed personnel. Secured €200,000 grant from the Dutch Ministry of Justice (2024).',
+    stat: 'National Policy',
+  },
+  {
+    year: '2021–22',
+    org: 'Radboudumc',
+    role: 'Scientific Researcher, Oncology',
+    desc: 'Pioneered Patient-Reported Outcomes research methodology across 13 Dutch hospitals. Conducted 100+ in-depth interviews; results published in leading scientific journals.',
+    stat: '13 Hospitals',
+  },
+  {
+    year: '2019–21',
+    org: 'Netherlands Cancer Institute',
+    role: 'Junior Researcher',
+    desc: 'Built and launched SYMPRO-Lung, an e-health web app for lung cancer patient symptom tracking. Designed PRO frameworks for prostate and rectal cancer clinical trials.',
+    stat: 'e-Health',
+  },
+];
+
+const RESEARCH = [
+  {
+    year: '2024',
+    title: 'Using a modified Delphi procedure to select a PRO-CTCAE-based subset for patient-reported symptomatic toxicity monitoring in rectal cancer patients',
+    authors: 'Geurts, Y.M., Peters, F., Feldman, E., et al.',
+    journal: 'Quality of Life Research',
+    doi: '10.1007/s11136-024-03767-0'
+  },
+  {
+    year: '2023',
+    title: 'Selecting a PRO-CTCAE-based subset for patient-reported symptom monitoring in prostate cancer patients: A modified Delphi procedure',
+    authors: 'Feldman, E., Pos, F.J., Smeenk, R.J., et al.',
+    journal: 'ESMO Open',
+    doi: '10.1016/j.esmoop.2022.100775'
+  },
+  {
+    year: '2021',
+    title: 'SYMPRO-Lung: Study protocol for a stepped-wedge randomised controlled trial',
+    authors: 'Feldman, E., et al.',
+    journal: 'BMJ Open',
+    doi: '10.1136/bmjopen-2021-052494'
+  },
+  {
+    year: '2020',
+    title: 'SYMPRO-Lung: Symptom monitoring with patient-reported outcomes among lung cancer patients in the Netherlands',
+    authors: 'Feldman, E., et al.',
+    journal: 'Annals of Oncology',
+    doi: '10.1016/j.annonc.2020.08.1436'
+  },
+];
+
+function Nav({ page, setPage }) {
+  const links = ['Work', 'Collabiora', 'Research', 'About'];
+  return (
+    <nav>
+      <span className="nav-logo" onClick={() => setPage('home')}>Esther Feldman</span>
+      <div className="nav-links">
+        {links.map(l => (
+          <button
+            key={l}
+            className={`nav-link${page === l.toLowerCase() ? ' active' : ''}`}
+            onClick={() => setPage(l.toLowerCase())}
+          >{l}</button>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function HomePage({ setPage }) {
+  const photoRef = useRef(null);
+  const heroRef = useRef(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!photoRef.current || !heroRef.current) return;
+      const rect = heroRef.current.getBoundingClientRect();
+      const progress = Math.max(0, -rect.top / rect.height);
+      photoRef.current.style.transform = `translateY(${progress * 60}px) scale(${1 + progress * 0.03})`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <div>
+      <section className="hero" ref={heroRef}>
+        <div className="hero-left">
+          <div className="hero-eyebrow">Researcher &amp; Founder</div>
+          <h1 className="hero-name">
+            Esther<br /><em>Feldman</em>
+          </h1>
+          <p className="hero-desc">
+            <strong>Organizational psychologist, policy architect, and health-tech founder.</strong>{' '}
+            Building AI tools that make health information accessible to everyone — from Amsterdam trauma centres to Los Angeles startups.
+          </p>
+          <div className="hero-tags">
+            <span className="hero-tag" onClick={() => setPage('work')}>Collabiora Co-Founder</span>
+            <span className="hero-tag" onClick={() => setPage('work')}>Policy Advisor · ARQ</span>
+            <span className="hero-tag" onClick={() => setPage('research')}>4 Publications</span>
+          </div>
+        </div>
+        <div className="hero-right">
+          <div className="hero-photo-wrap">
+            <img
+              ref={photoRef}
+              className="hero-photo"
+              src={PHOTO}
+              alt="Esther Feldman"
+            />
+          </div>
+          <div className="hero-bg-name" aria-hidden>EF</div>
+        </div>
+        <div className="scroll-indicator">
+          <div className="scroll-line"></div>
+          <span>Scroll</span>
+        </div>
+      </section>
+
+      {/* Brief intro strip */}
+      <section style={{ padding: '80px 48px', borderTop: '1px solid oklch(15% 0.01 60 / 0.1)', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '40px' }}>
+        {[
+          { num: '6', label: 'Languages spoken' },
+          { num: '4', label: 'Peer-reviewed publications' },
+          { num: '200K+', label: 'Personnel reached by policy work' },
+        ].map(s => (
+          <div key={s.label} style={{ borderLeft: '1px solid oklch(15% 0.01 60 / 0.2)', paddingLeft: '28px' }}>
+            <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(42px, 5vw, 72px)', fontWeight: 300, lineHeight: 1, marginBottom: 10 }}>{s.num}</div>
+            <div style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', opacity: 0.45, fontWeight: 500 }}>{s.label}</div>
+          </div>
+        ))}
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
+
+function WorkPage({ setPage }) {
+  return (
+    <div>
+      <section className="section">
+        <div className="section-header">
+          <span className="section-num">01</span>
+          <h2 className="section-title">Selected Work</h2>
+        </div>
+        <div className="work-list">
+          {WORK.map((w, i) => (
+            <div className="work-item" key={i}>
+              <div className="work-year">{w.year}</div>
+              <div>
+                <div className="work-org">{w.org}</div>
+                <div className="work-role">{w.role}</div>
+                <p className="work-desc">{w.desc}</p>
+                {w.link && (
+                  <a href={`https://${w.link}`} target="_blank" rel="noopener noreferrer"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 14, fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'oklch(52% 0.09 238)', fontWeight: 500, textDecoration: 'none', borderBottom: '1px solid oklch(52% 0.09 238 / 0.3)', paddingBottom: 2 }}>
+                    {w.link} →
+                  </a>
+                )}
+              </div>
+              <div className="work-stat">{w.stat}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <Footer />
+    </div>
+  );
+}
+
+function CollabiPage() {
+  return (
+    <div>
+      <div className="collabiora-hero">
+        <div className="collabiora-left">
+          <div className="collabiora-eyebrow">Co-Founder · 2025–Present</div>
+          <h2 className="collabiora-name">Collabiora</h2>
+          <p className="collabiora-desc">
+            A health navigation platform helping patients and researchers find, understand, and act on health information. Built on the belief that access to clear health guidance shouldn't depend on who you know or what language you speak.
+          </p>
+          <a href="https://collabiora.com" target="_blank" rel="noopener noreferrer" className="collabiora-link">
+            Visit collabiora.com →
+          </a>
+        </div>
+        <div className="collabiora-right">
+          <img className="collabiora-logo-img" src="uploads/Collabiora Logo.PNG" alt="Collabiora" />
         </div>
       </div>
-    </div>
-    <div class="hero-photo">
-      <img src="esther 2.png" alt="Esther Feldman" />
-    </div>
-  </div>
 
-  <hr class="rule" />
+      <div className="collabiora-stats">
+        {[
+          { num: '2025', label: 'Founded' },
+          { num: 'LA →', label: 'Based in Los Angeles' },
+          { num: '6', label: 'Languages accessible' },
+        ].map(s => (
+          <div className="collabiora-stat" key={s.label}>
+            <div className="collabiora-stat-num">{s.num}</div>
+            <div className="collabiora-stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
 
-  <!-- WORK -->
-  <section id="work">
-    <p class="section-label">Current Work</p>
-    <div class="work-grid">
-
-      <div class="work-card">
-        <p class="work-card-eyebrow">Since November 2025</p>
-        <h2 class="work-card-title">Collabiora</h2>
-        <p class="work-card-org">Co-Founder &amp; CEO · Los Angeles</p>
-        <div class="yori-badge">Yori AI</div>
-        <div class="work-card-body">
-          <p>Co-founded Collabiora to solve a problem Esther encountered first-hand across a decade of health research: patients, clinicians, and researchers all drowning in information they can't easily navigate.</p>
-          <p>Yori is Collabiora's AI — designed to distil complex health data into clear, actionable answers for anyone who needs it.</p>
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="section-header">
+          <span className="section-num">—</span>
+          <h2 className="section-title">Mission</h2>
         </div>
-        <a class="work-card-link" href="https://collabiora.com" target="_blank">collabiora.com</a>
-      </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80 }}>
+          <p style={{ fontSize: 15, lineHeight: 1.85, opacity: 0.72 }}>
+            Health information is fragmented, jargon-heavy, and often inaccessible to the people who need it most. Collabiora bridges that gap — combining Esther's background in organizational psychology and health research with AI to build tools that speak plainly and work for everyone.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {['Patient-centred navigation', 'Multilingual by design', 'Grounded in clinical research'].map(f => (
+              <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 13, letterSpacing: '0.08em', opacity: 0.7 }}>
+                <div style={{ width: 28, height: 1, background: 'oklch(52% 0.09 238)', flexShrink: 0 }}></div>
+                {f}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </div>
+  );
+}
 
-      <div class="work-card">
-        <p class="work-card-eyebrow">Since May 2023</p>
-        <h2 class="work-card-title">ARQ National Psychotrauma Centre</h2>
-        <p class="work-card-org">Policy Advisor &amp; Researcher · Netherlands (Remote)</p>
-        <div class="work-card-body">
-          <p>Leading national mental health policy for 200,000+ uniformed personnel — police, military, emergency services — across the Netherlands.</p>
-          <p>Architected national PTSD support guidelines, secured a €200,000 Ministry of Justice grant, and built monitoring systems that track measurable reductions in trauma incidents across regional programmes.</p>
+function ResearchPage() {
+  return (
+    <div>
+      <section className="section">
+        <div className="section-header">
+          <span className="section-num">02</span>
+          <h2 className="section-title">Publications</h2>
+        </div>
+        <div className="research-list">
+          {RESEARCH.map((r, i) => (
+            <div className="research-item" key={i}>
+              <div className="research-year">{r.year}</div>
+              <div>
+                <div className="research-title">{r.title}</div>
+                <div className="research-authors">{r.authors}</div>
+                <div className="research-journal">{r.journal}</div>
+              </div>
+              <a
+                href={`https://doi.org/${r.doi}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="research-doi"
+                style={{ color: 'inherit', textDecoration: 'none' }}
+              >
+                DOI:{r.doi}
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
+      <Footer />
+    </div>
+  );
+}
+
+function AboutPage() {
+  return (
+    <div>
+      <div className="about-grid">
+        <div className="about-left">
+          <div className="about-photo-wrap">
+            <img className="about-photo" src={PHOTO} alt="Esther Feldman" />
+
+          </div>
+        </div>
+        <div className="about-right">
+          <p className="about-intro">
+            "Making health information accessible to everyone — from Amsterdam trauma centres to Los Angeles startups."
+          </p>
+          <p className="about-body">
+            Esther Feldman is an organizational psychologist and health researcher based in Los Angeles. Her work spans national mental health policy, oncology research, and health technology — connecting rigorous academic research with real-world impact.
+          </p>
+          <div className="about-meta">
+            <div className="about-meta-row">
+              <span className="about-meta-label">Education</span>
+              <span className="about-meta-val">M.Sc. Work &amp; Organizational Psychology<br />Vrije Universiteit Amsterdam<br /><br />B.Sc. Psychology<br />Erasmus University Rotterdam</span>
+            </div>
+            <div className="about-meta-row">
+              <span className="about-meta-label">Based in</span>
+              <span className="about-meta-val">Los Angeles, California</span>
+            </div>
+            <div className="about-meta-row">
+              <span className="about-meta-label">Languages</span>
+              <span className="about-meta-val">Dutch · English · Russian · French · Spanish · Catalan</span>
+            </div>
+            <div className="about-meta-row">
+              <span className="about-meta-label">Focus</span>
+              <span className="about-meta-val">Mental health policy · Oncology research · Health technology</span>
+            </div>
+          </div>
         </div>
       </div>
-
+      <Footer />
     </div>
-  </section>
+  );
+}
 
-  <hr class="rule" />
+function Footer() {
+  return (
+    <footer>
+      <div className="footer-name">Esther Feldman</div>
+      <div className="footer-copy">© 2025 · Los Angeles</div>
+    </footer>
+  );
+}
 
-  <!-- STATS -->
-  <section class="stats">
-    <p class="section-label">Impact</p>
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-num">200<sup>k+</sup></div>
-        <div class="stat-label">Uniformed personnel covered<br>by national guidelines</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">€200<sup>k</sup></div>
-        <div class="stat-label">Government grant secured<br>Ministry of Justice 2024</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">4</div>
-        <div class="stat-label">Peer-reviewed publications<br>in oncology &amp; cancer care</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">13<sup>+</sup></div>
-        <div class="stat-label">Dutch hospitals in landmark<br>lung cancer PRO study</div>
-      </div>
+function App() {
+  const [page, setPage] = useState('home');
+  const [animKey, setAnimKey] = useState(0);
+  const mainRef = useRef(null);
+
+  const navigate = useCallback((p) => {
+    setPage(p);
+    setAnimKey(k => k + 1);
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  const pages = {
+    home: <HomePage setPage={navigate} />,
+    work: <WorkPage setPage={navigate} />,
+    collabiora: <CollabiPage />,
+    research: <ResearchPage />,
+    about: <AboutPage />,
+  };
+
+  return (
+    <div>
+      <Nav page={page} setPage={navigate} />
+      <main ref={mainRef} key={animKey} className="page-enter">
+        {pages[page] || pages.home}
+      </main>
     </div>
-  </section>
+  );
+}
 
-  <!-- COLLABIORA -->
-  <section class="collabiora-section" id="collabiora">
-    <p class="section-label">The Company</p>
-    <div class="collabiora-inner">
-      <div class="collabiora-left">
-        <h2 class="headline">
-          <em>Meet Yori</em>
-          Health information,<br>finally navigable
-        </h2>
-        <p>Esther co-founded Collabiora in November 2025 with Sanskriti Desai. The company's core product, Yori, is an AI built specifically for health navigation — helping patients understand their diagnoses, supporting researchers synthesising evidence, and helping healthcare providers access the information they need faster.</p>
-        <p>Esther's decade in clinical and policy research — across cancer care, trauma, and public health — directly shapes how Yori thinks. The product isn't built from the outside in. It's built from lived institutional knowledge.</p>
-        <p>Collabiora targets individual subscribers, hospital licensing deals, and venture investment. The long-game is institutional adoption: getting Yori embedded in the places where health decisions actually get made.</p>
-      </div>
-      <div class="collabiora-right">
-        <ul class="pillar-list">
-          <li class="pillar-item">
-            <span class="pillar-num">01</span>
-            <div class="pillar-text">
-              <div class="pillar-title">Patients</div>
-              <div class="pillar-desc">Overwhelming diagnoses made clear. Real answers from complex medical information.</div>
-            </div>
-          </li>
-          <li class="pillar-item">
-            <span class="pillar-num">02</span>
-            <div class="pillar-text">
-              <div class="pillar-title">Researchers</div>
-              <div class="pillar-desc">Evidence synthesis at speed. Navigate literature, data, and guidelines without the noise.</div>
-            </div>
-          </li>
-          <li class="pillar-item">
-            <span class="pillar-num">03</span>
-            <div class="pillar-text">
-              <div class="pillar-title">Health Professionals</div>
-              <div class="pillar-desc">Faster access to the knowledge they need when it matters most.</div>
-            </div>
-          </li>
-          <li class="pillar-item">
-            <span class="pillar-num">04</span>
-            <div class="pillar-text">
-              <div class="pillar-title">Institutions</div>
-              <div class="pillar-desc">Hospital and research licensing — Yori embedded at the systems level.</div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <hr class="rule" />
-
-  <!-- RESEARCH -->
-  <section id="research">
-    <p class="section-label">Publications</p>
-    <div class="research-grid">
-
-      <div class="pub-card">
-        <div class="pub-year">2024 · Quality of Life Research</div>
-        <p class="pub-title">Using a modified Delphi procedure to select a PRO-CTCAE-based subset for patient-reported symptomatic toxicity monitoring in rectal cancer patients</p>
-        <p class="pub-journal">Geurts, Peters, Feldman, et al. · DOI: 10.1007/s11136-024-03767-0</p>
-      </div>
-
-      <div class="pub-card">
-        <div class="pub-year">2023 · ESMO Open</div>
-        <p class="pub-title">Selecting a PRO-CTCAE-based subset for patient-reported symptom monitoring in prostate cancer patients: A modified Delphi procedure</p>
-        <p class="pub-journal">Feldman, Pos, Smeenk, et al. · DOI: 10.1016/j.esmoop.2022.100775</p>
-      </div>
-
-      <div class="pub-card">
-        <div class="pub-year">2021 · BMJ Open</div>
-        <p class="pub-title">SYMPRO-Lung: Symptom monitoring with Patient-Reported Outcomes using a web application among lung cancer patients in the Netherlands</p>
-        <p class="pub-journal">Feldman et al. · DOI: 10.1136/bmjopen-2021-052494</p>
-      </div>
-
-      <div class="pub-card">
-        <div class="pub-year">2020 · Annals of Oncology</div>
-        <p class="pub-title">SYMPRO-Lung: PRO monitoring using a web application among lung cancer patients in the Netherlands</p>
-        <p class="pub-journal">Feldman et al. · Annals of Oncology, 31, S801</p>
-      </div>
-
-    </div>
-  </section>
-
-  <hr class="rule" />
-
-  <!-- ABOUT / BACKGROUND -->
-  <section class="background-section" id="about">
-    <p class="section-label">Background</p>
-    <div class="bg-grid">
-      <div>
-        <p class="bg-intro">
-          A decade of<br>
-          <span class="dim">clinical research,</span><br>
-          policy architecture,<br>
-          <span class="dim">and institutional</span><br>
-          health work —<br>
-          distilled into a product.
-        </p>
-        <p style="margin-top:36px; font-size:14px; line-height:1.75; color:#5A5A57; max-width:480px;">
-          Esther holds an M.Sc. in Work &amp; Organisational Psychology from VU Amsterdam and a B.Sc. in Psychology from Erasmus University Rotterdam. Before Collabiora, she spent four years in clinical cancer research — at the Netherlands Cancer Institute and Radboudumc — pioneering patient-reported outcome frameworks now used across 13+ Dutch hospitals. She speaks six languages and holds a US Green Card. Based in Los Angeles.
-        </p>
-      </div>
-      <div>
-        <ul class="credential-list">
-          <li class="credential-item">
-            <span class="credential-title">M.Sc. Work &amp; Organisational Psychology</span>
-            <span class="credential-sub">Vrije Universiteit Amsterdam · 2019</span>
-          </li>
-          <li class="credential-item">
-            <span class="credential-title">B.Sc. Psychology</span>
-            <span class="credential-sub">Erasmus University Rotterdam · 2017</span>
-          </li>
-          <li class="credential-item">
-            <span class="credential-title">Machine Learning with Python</span>
-            <span class="credential-sub">Amsterdam Data Academy · 2023</span>
-          </li>
-          <li class="credential-item">
-            <span class="credential-title">Cognitive Behavioural Therapy (100H)</span>
-            <span class="credential-sub">Certified · 2021</span>
-          </li>
-          <li class="credential-item">
-            <span class="credential-title">Policy Advisor · ARQ Psychotrauma Centre</span>
-            <span class="credential-sub">2023 – Present</span>
-          </li>
-          <li class="credential-item">
-            <span class="credential-title">Scientific Researcher · Radboudumc Oncology</span>
-            <span class="credential-sub">2021 – 2022</span>
-          </li>
-          <li class="credential-item">
-            <span class="credential-title">Junior Researcher · Netherlands Cancer Institute</span>
-            <span class="credential-sub">2019 – 2021</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-name">Esther<br>Feldman</div>
-    <div class="footer-right">
-      <a class="footer-link" href="mailto:esfeldbarg@gmail.com">esfeldbarg@gmail.com</a>
-      <a class="footer-link" href="https://www.linkedin.com/in/estherfeldman" target="_blank">LinkedIn</a>
-      <a class="footer-collabiora" href="https://collabiora.com" target="_blank">collabiora.com →</a>
-    </div>
-  </footer>
-
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
 </body>
 </html>
