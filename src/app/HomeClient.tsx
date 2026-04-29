@@ -15,7 +15,7 @@ export default function HomeClient({ content }: HomeClientProps) {
   const photoRef = useRef<HTMLImageElement>(null)
   const heroRef = useRef<HTMLDivElement>(null)
 
-  const heroTitle = content.hero_title || 'Esther Feldman'
+  const heroTitle = content.hero_title || 'Esther<br /><em>Feldman</em>'
   const heroEyebrow = content.hero_eyebrow || 'Researcher & Founder'
   const heroDesc = content.hero_description || 'Organizational psychologist, policy architect, and health-tech founder. Building AI tools that make health information accessible to everyone.'
 
